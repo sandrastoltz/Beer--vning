@@ -12,10 +12,10 @@ const beerTitle = document.querySelector("#beer-title");
 const beerList = document.getElementById("search-list");
 const seeMoreBtn = document.getElementById("see-more-btn");
 const searchBtn = document.getElementById("searchBeerBtn");
-const form = document.querySelector("#main-form")
-const infoBox = document.querySelector(".main__search-container")
-const beerBox = document.querySelector(".main__beer-card-container")
-const back = document.querySelector("#go-back-btn")
+const form = document.querySelector("#main-form");
+const infoBox = document.querySelector(".main__search-container");
+const beerBox = document.querySelector(".main__beer-card-container");
+const back = document.querySelector("#go-back-btn");
 
 //Hämtar alla öl
 const getBeer = async () => {
@@ -29,7 +29,7 @@ const getBeer = async () => {
   for (const beer of data) {
     const beerNameBtn = document.createElement("button");
     beerNameBtn.innerText = beer.name;
-    console.log("Ölnamn: ", beer.name);
+    // console.log("Ölnamn: ", beer.name);
 
     // lägger knapparn i en lista <li>
     const beerItem = document.createElement("li"); //skapar li i HTML
@@ -42,8 +42,8 @@ const getBeer = async () => {
 
 //Hämtar en random öl
 const getRandomBeer = async () => {
-    infoBox.classList.add("hide")
-    beerBox.classList.remove("hide")
+  infoBox.classList.add("hide");
+  beerBox.classList.remove("hide");
   const response = await fetch("https://api.punkapi.com/v2/beers/random");
   const data = await response.json();
   console.log("random beer", data);
@@ -58,58 +58,57 @@ const getRandomBeer = async () => {
       "https://img.freepik.com/premium-vector/beer-bottle-brown-glass-soda-drink-bottle-blank-alcohol-beverage-product-brand-illustration_83194-1979.jpg?size=626&ext=jpg&ga=GA1.1.2013632916.1700655652&semt=ais";
   }
   seeMoreBtn.addEventListener("click", () => {
-    infoBox.classList.remove("hide")
-    beerBox.classList.add("hide")
-
-    if (data[0].name) {
-      beerList.innerText = "";
-      let hops = [];
-      let malt = [];
-
-      data[0].ingredients.hops.forEach((element) => {
-        hops.push(element.name);
-      });
-
-      data[0].ingredients.malt.forEach((element) => {
-        console.log("malt", element);
-        malt.push(element.name);
-      });
-
-      const beerDescription = document.createElement("ul");
-      beerDescription.innerHTML = `
-            <li>Description: ${data[0].description}<li/>
-            <li>Alcohol by volume: ${data[0].abv}%<li/>
-            <li>Brewers tips: ${data[0].brewers_tips}<li/>
-            <li>Volume: ${data[0].volume.value} liters<li/>
-            <li>Food pairing: ${data[0].food_pairing}<li/>
-            <p>Ingredients</p>
-            <li>Hops: ${hops}<li/>
-            <li>Malt: ${malt}<li/>
-            <li>Yeast: ${data[0].ingredients.yeast}<li/>
-            `;
-
-      beerList.append(beerDescription);
-    }
+    infoBox.classList.remove("hide");
+    beerBox.classList.add("hide");
+    getInfo(data);
   });
 };
 
-
-
 randomBtn.addEventListener("click", () => {
-
-    getRandomBeer();
+  getRandomBeer();
 });
 
 searchBtn.addEventListener("click", () => {
- form.classList.remove("hide")
-  });
-
+  form.classList.remove("hide");
+});
 
 //under undersökning
 //   back.addEventListener("click", () => {
 //     beerBox.classList.toggle("hide")
 //     infoBox.classList.toggle("hide")
-   
+
 //   })
 
 getBeer();
+
+function getInfo(data) {
+  if (data[0].name) {
+    beerList.innerText = "";
+    let hops = [];
+    let malt = [];
+
+    data[0].ingredients.hops.forEach((element) => {
+      hops.push(element.name);
+    });
+
+    data[0].ingredients.malt.forEach((element) => {
+      // console.log("malt", element);
+      malt.push(element.name);
+    });
+
+    const beerDescription = document.createElement("ul");
+    beerDescription.innerHTML = `
+          <li>Description: ${data[0].description}<li/>
+          <li>Alcohol by volume: ${data[0].abv}%<li/>
+          <li>Brewers tips: ${data[0].brewers_tips}<li/>
+          <li>Volume: ${data[0].volume.value} liters<li/>
+          <li>Food pairing: ${data[0].food_pairing}<li/>
+          <p>Ingredients</p>
+          <li>Hops: ${hops}<li/>
+          <li>Malt: ${malt}<li/>
+          <li>Yeast: ${data[0].ingredients.yeast}<li/>
+          `;
+
+    beerList.append(beerDescription);
+  }
+}
