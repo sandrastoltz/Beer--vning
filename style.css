@@ -93,3 +93,7 @@ main{
     border: none;
     background: white
  }
+
+ .hide{
+    display: none;
+ }

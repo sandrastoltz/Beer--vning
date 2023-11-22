@@ -12,6 +12,10 @@ const beerTitle = document.querySelector("#beer-title");
 const beerList = document.getElementById("search-list");
 const seeMoreBtn = document.getElementById("see-more-btn");
 const searchBtn = document.getElementById("searchBeerBtn");
+const form = document.querySelector("#main-form")
+const infoBox = document.querySelector(".main__search-container")
+const beerBox = document.querySelector(".main__beer-card-container")
+const back = document.querySelector("#go-back-btn")
 
 //Hämtar alla öl
 const getBeer = async () => {
@@ -52,6 +56,9 @@ const getRandomBeer = async () => {
       "https://img.freepik.com/premium-vector/beer-bottle-brown-glass-soda-drink-bottle-blank-alcohol-beverage-product-brand-illustration_83194-1979.jpg?size=626&ext=jpg&ga=GA1.1.2013632916.1700655652&semt=ais";
   }
   seeMoreBtn.addEventListener("click", () => {
+    // infoBox.classList.toggle("hide")
+    // beerBox.classList.toggle("hide")
+
     if (data[0].name) {
       beerList.innerText = "";
       let hops = [];
@@ -88,11 +95,20 @@ const getRandomBeer = async () => {
 
 
 randomBtn.addEventListener("click", () => {
-  getRandomBeer();
+
+    getRandomBeer();
 });
 
 searchBtn.addEventListener("click", () => {
-
+ form.classList.toggle("hide")
   });
+
+
+//under undersökning
+//   back.addEventListener("click", () => {
+//     beerBox.classList.toggle("hide")
+//     infoBox.classList.toggle("hide")
+   
+//   })
 
 getBeer();
