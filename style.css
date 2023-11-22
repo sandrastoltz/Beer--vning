@@ -1,5 +1,7 @@
 /* Fonts */
 
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
 :root {
     --page-background: ;
     --font-color: ;
@@ -11,6 +13,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Exo 2', sans-serif;
 }
 
 /* Header */
@@ -49,7 +52,7 @@ main{
     margin-right: 1rem;
 }
 
-.main__beer-card-container p {
+.main__beer-card-container h2 {
     text-align: center;
     margin: 1rem;
 }
@@ -57,26 +60,36 @@ main{
 .main__beer-image {
     width: 20rem;
     height: 20rem;
-    background-color: pink;
+    /* background-color: pink; */
     margin: 2rem auto 0 auto;
+    object-fit: scale-down;
 }
 
 .main__beer-btn{
     width: 10rem;
-    padding: 1rem;
-    margin-top: 4rem;
+    margin-top: 1rem;
  }
 
- .main__see-more-container {
+ .main__search-container {
     width: 30rem;
     height: 35rem;
     border: 5px solid black;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.16);
+    overflow-y: auto;
  }
 
- .main__see-more-container ul {
+ .main__search-container ul {
     height: 30rem;
-    width: 25rem;
-    background-color: blue;
-    margin: 2rem auto;
+    width: 20rem;
+    margin: 2rem;
+    padding-bottom: 1rem;
+ }
+ li{
+    list-style: none;
+    margin-top: 1rem;
+
+ }
+ li button{
+    border: none;
+    background: white
  }
