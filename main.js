@@ -42,6 +42,8 @@ const getBeer = async () => {
 
 //Hämtar en random öl
 const getRandomBeer = async () => {
+    infoBox.classList.add("hide")
+    beerBox.classList.remove("hide")
   const response = await fetch("https://api.punkapi.com/v2/beers/random");
   const data = await response.json();
   console.log("random beer", data);
@@ -56,8 +58,8 @@ const getRandomBeer = async () => {
       "https://img.freepik.com/premium-vector/beer-bottle-brown-glass-soda-drink-bottle-blank-alcohol-beverage-product-brand-illustration_83194-1979.jpg?size=626&ext=jpg&ga=GA1.1.2013632916.1700655652&semt=ais";
   }
   seeMoreBtn.addEventListener("click", () => {
-    // infoBox.classList.toggle("hide")
-    // beerBox.classList.toggle("hide")
+    infoBox.classList.remove("hide")
+    beerBox.classList.add("hide")
 
     if (data[0].name) {
       beerList.innerText = "";
@@ -65,7 +67,6 @@ const getRandomBeer = async () => {
       let malt = [];
 
       data[0].ingredients.hops.forEach((element) => {
-        // console.log("hops", element);
         hops.push(element.name);
       });
 
@@ -100,7 +101,7 @@ randomBtn.addEventListener("click", () => {
 });
 
 searchBtn.addEventListener("click", () => {
- form.classList.toggle("hide")
+ form.classList.remove("hide")
   });
 
 
