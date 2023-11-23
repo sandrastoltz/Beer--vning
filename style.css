@@ -76,6 +76,8 @@ main{
     border: 5px solid black;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.16);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
  }
 
  .main__search-container ul {

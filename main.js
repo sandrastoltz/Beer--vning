@@ -17,6 +17,9 @@ const infoBox = document.querySelector(".main__search-container");
 const beerBox = document.querySelector(".main__beer-card-container");
 const back = document.querySelector("#go-back-btn");
 const formInput = document.querySelector(".main__form-input");
+let page = 1;
+const next = document.querySelector(".next");
+const previous = document.querySelector(".previous");
 
 
 //Hämtar alla öl
@@ -134,8 +137,6 @@ const getInfoList = async (index) => {
     });
 
 
-
-
   }
 
     const beerDescription = document.createElement("ul");
@@ -187,9 +188,12 @@ form.addEventListener("submit", async (e) => {
         getInfoList(index) //skall ligga i eventlistener
       })
     }
-}
-)
+})
 
+
+next.addEventListener("click", () => {
+  console.log("horse");
+})
 
 
 //<fetch>`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`
