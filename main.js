@@ -79,7 +79,7 @@ searchBtn.addEventListener("click", () => {
 
 //   })
 
-getBeer();
+
 
 function getInfo(data) {
   if (data[0].name) {
@@ -112,3 +112,5 @@ function getInfo(data) {
     beerList.append(beerDescription);
   }
 }
+
+getBeer();
