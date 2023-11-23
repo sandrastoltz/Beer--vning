@@ -151,7 +151,7 @@ const getInfoList = async (index) => {
     console.log(beerList);
   }
 
-const printList = () => 
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   beerList.innerHTML = ""
@@ -170,7 +170,6 @@ form.addEventListener("submit", async (e) => {
       console.log("item", item.name);
       console.log("index item", index);
      
-      
       const beerNameBtn = document.createElement("button");
       beerNameBtn.innerText = item.name;
       // console.log("Ölnamn: ", beer.name);
@@ -192,6 +191,7 @@ form.addEventListener("submit", async (e) => {
 })
 
 next.addEventListener("click", async () => {
+  beerList.innerHTML = ""
   page++;
   const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
   const data = await response.json();
@@ -203,10 +203,36 @@ next.addEventListener("click", async () => {
     previous.disabled = false
   }
 
+  for (const [index, item] of data.entries()) {
+    console.log("item", item.name);
+    console.log("index item", index);
+   
+    
+    const beerNameBtn = document.createElement("button");
+    beerNameBtn.innerText = item.name;
+    // console.log("Ölnamn: ", beer.name);
+
+    // lägger knapparn i en lista <li>
+    const beerItem = document.createElement("li"); //skapar li i HTML
+    beerItem.appendChild(beerNameBtn);
+    beerList.append(beerItem); //gör så li-elementen syns i HTML
+    infoBox.append(beerList)
+    infoBox.classList.remove("hide")
+    beerBox.classList.add("hide")
+
+    beerNameBtn.addEventListener("click", ()=>{
+      previous.classList.add("hide")
+      next.classList.add("hide")
+      getInfoList(index) //skall ligga i eventlistener
+    })
+  }
+
 })
 
 previous.addEventListener("click", async () => {
+  beerList.innerHTML = ""
   page--;
+  
   const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
   const data = await response.json();
   console.log("data:", data);
@@ -215,6 +241,31 @@ previous.addEventListener("click", async () => {
   }
   if(page === 1){
     previous.disabled = true
+  }
+
+
+  for (const [index, item] of data.entries()) {
+    console.log("item", item.name);
+    console.log("index item", index);
+   
+    
+    const beerNameBtn = document.createElement("button");
+    beerNameBtn.innerText = item.name;
+    // console.log("Ölnamn: ", beer.name);
+
+    // lägger knapparn i en lista <li>
+    const beerItem = document.createElement("li"); //skapar li i HTML
+    beerItem.appendChild(beerNameBtn);
+    beerList.append(beerItem); //gör så li-elementen syns i HTML
+    infoBox.append(beerList)
+    infoBox.classList.remove("hide")
+    beerBox.classList.add("hide")
+
+    beerNameBtn.addEventListener("click", ()=>{
+      previous.classList.add("hide")
+      next.classList.add("hide")
+      getInfoList(index) //skall ligga i eventlistener
+    })
   }
 
 
