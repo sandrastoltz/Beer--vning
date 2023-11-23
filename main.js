@@ -59,6 +59,7 @@ const getRandomBeer = async () => {
 
 randomBtn.addEventListener("click", () => {
   getRandomBeer();
+  form.classList.add("hide")
 });
 
 searchBtn.addEventListener("click", () => {
@@ -109,16 +110,10 @@ searchBtn.addEventListener("click", () => {
 
 const getInfoList = async (index) => {
 
-  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`);
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
   const data = await response.json();
   console.log("sökresultat", data);
 
-  // let item;
-  // if(Array.isArray(data)){
-  //   item = data[0];
-  // }else{
-  //   item = data
-  // }
   beerList.innerText = "";
     let hops = [];
     let malt = [];
@@ -156,12 +151,16 @@ const getInfoList = async (index) => {
     console.log(beerList);
   }
 
-
+const printList = () => 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   beerList.innerHTML = ""
-
-  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`);
+  previous.classList.remove("hide")
+  next.classList.remove("hide")
+    if (page === 1){
+    previous.disabled = true
+  }
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
   const data = await response.json();
   console.log("sökresultat", data);
   // console.log("form input: ",formInput.value);
@@ -185,15 +184,43 @@ form.addEventListener("submit", async (e) => {
       beerBox.classList.add("hide")
 
       beerNameBtn.addEventListener("click", ()=>{
+        previous.classList.add("hide")
+        next.classList.add("hide")
         getInfoList(index) //skall ligga i eventlistener
       })
     }
 })
 
+next.addEventListener("click", async () => {
+  page++;
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
+  const data = await response.json();
+  console.log("data:", data);
+  if(data.length < 9){
+    next.disabled = true
+  }
+  if(page > 1){
+    previous.disabled = false
+  }
 
-next.addEventListener("click", () => {
-  console.log("horse");
 })
+
+previous.addEventListener("click", async () => {
+  page--;
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
+  const data = await response.json();
+  console.log("data:", data);
+  if(data.length > 9){
+    next.disabled = false
+  }
+  if(page === 1){
+    previous.disabled = true
+  }
+
+
+})
+
+
 
 
 //<fetch>`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`
