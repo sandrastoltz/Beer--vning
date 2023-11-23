@@ -54,8 +54,10 @@ const getRandomBeer = async () => {
   seeMoreBtn.addEventListener("click", () => {
     infoBox.classList.remove("hide");
     beerBox.classList.add("hide");
-    backToSearch.classList.remove("hide")
+    backToSearch.classList.add("hide")
     back.classList.remove("hide")
+    next.classList.add("hide")
+    previous.classList.add("hide")
     seeMoreInfo(data);
   });
 };
