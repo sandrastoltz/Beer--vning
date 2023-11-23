@@ -16,31 +16,21 @@ const form = document.querySelector("#main-form");
 const infoBox = document.querySelector(".main__search-container");
 const beerBox = document.querySelector(".main__beer-card-container");
 const back = document.querySelector("#go-back-btn");
+const formInput = document.querySelector(".main__form-input");
+
 
 //Hämtar alla öl
-const getBeer = async () => {
-  const response = await fetch(
-    "https://api.punkapi.com/v2/beers?page=1&per_page=10"
-  );
-  const data = await response.json();
-  console.log("beers", data); //arrayen
+// const getBeer = async () => {
+//   const response = await fetch(
+//     "https://api.punkapi.com/v2/beers?page=1&per_page=10"
+//   );
+//   const data = await response.json();
+//   console.log("beers", data); //arrayen
 
-  // gör alla öl (data.name) till knappar
-  for (const beer of data) {
-    const beerNameBtn = document.createElement("button");
-    beerNameBtn.innerText = beer.name;
-    // console.log("Ölnamn: ", beer.name);
+//   getRandomBeer();
+// };
 
-    // lägger knapparn i en lista <li>
-    const beerItem = document.createElement("li"); //skapar li i HTML
-    beerItem.appendChild(beerNameBtn);
-    beerList.append(beerItem); //gör så li-elementen syns i HTML
-  }
-
-  getRandomBeer();
-};
-
-//Hämtar en random öl
+//Hämtar en random öl ------rör ej
 const getRandomBeer = async () => {
   infoBox.classList.add("hide");
   beerBox.classList.remove("hide");
@@ -60,7 +50,7 @@ const getRandomBeer = async () => {
   seeMoreBtn.addEventListener("click", () => {
     infoBox.classList.remove("hide");
     beerBox.classList.add("hide");
-    getInfo(data);
+    seeMoreInfo(data);
   });
 };
 
@@ -72,45 +62,137 @@ searchBtn.addEventListener("click", () => {
   form.classList.remove("hide");
 });
 
-//under undersökning
-//   back.addEventListener("click", () => {
-//     beerBox.classList.toggle("hide")
-//     infoBox.classList.toggle("hide")
+// back knappen på info page
+  back.addEventListener("click", () => {
+    beerBox.classList.remove("hide")
+    infoBox.classList.add("hide")
 
-//   })
+  })
+
+  //rör ej
+  function seeMoreInfo(data) {
+    
+    if (data[0].name) {
+      beerList.innerText = "";
+      let hops = [];
+      let malt = [];
+  
+      data[0].ingredients.hops.forEach((element) => {
+        hops.push(element.name);
+      });
+  
+      data[0].ingredients.malt.forEach((element) => {
+        // console.log("malt", element);
+        malt.push(element.name);
+      });
+  
+      const beerDescription = document.createElement("ul");
+      beerDescription.innerHTML = `
+            <li>Description: ${data[0].description}<li/>
+            <li>Alcohol by volume: ${data[0].abv}%<li/>
+            <li>Brewers tips: ${data[0].brewers_tips}<li/>
+            <li>Volume: ${data[0].volume.value} liters<li/>
+            <li>Food pairing: ${data[0].food_pairing}<li/>
+            <p>Ingredients</p>
+            <li>Hops: ${hops}<li/>
+            <li>Malt: ${malt}<li/>
+            <li>Yeast: ${data[0].ingredients.yeast}<li/>
+            `;
+  
+      beerList.append(beerDescription);
+    }
+  }
 
 
+const getInfoList = async (index) => {
 
-function getInfo(data) {
-  if (data[0].name) {
-    beerList.innerText = "";
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`);
+  const data = await response.json();
+  console.log("sökresultat", data);
+
+  // let item;
+  // if(Array.isArray(data)){
+  //   item = data[0];
+  // }else{
+  //   item = data
+  // }
+  beerList.innerText = "";
     let hops = [];
     let malt = [];
+    
+  if (data[index].name) {
+    
 
-    data[0].ingredients.hops.forEach((element) => {
+
+    data[index].ingredients.hops.forEach((element) => {
       hops.push(element.name);
     });
 
-    data[0].ingredients.malt.forEach((element) => {
+    data[index].ingredients.malt.forEach((element) => {
       // console.log("malt", element);
       malt.push(element.name);
     });
 
+
+
+
+  }
+
     const beerDescription = document.createElement("ul");
     beerDescription.innerHTML = `
-          <li>Description: ${data[0].description}<li/>
-          <li>Alcohol by volume: ${data[0].abv}%<li/>
-          <li>Brewers tips: ${data[0].brewers_tips}<li/>
-          <li>Volume: ${data[0].volume.value} liters<li/>
-          <li>Food pairing: ${data[0].food_pairing}<li/>
+          <li>Description: ${data[index].description}<li/>
+          <li>Alcohol by volume: ${data[index].abv}%<li/>
+          <li>Brewers tips: ${data[index].brewers_tips}<li/>
+          <li>Volume: ${data[index].volume.value} liters<li/>
+          <li>Food pairing: ${data[index].food_pairing}<li/>
           <p>Ingredients</p>
           <li>Hops: ${hops}<li/>
           <li>Malt: ${malt}<li/>
-          <li>Yeast: ${data[0].ingredients.yeast}<li/>
+          <li>Yeast: ${data[index].ingredients.yeast}<li/>
           `;
 
     beerList.append(beerDescription);
+    console.log(beerList);
   }
-}
 
-getBeer();
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  beerList.innerHTML = ""
+
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`);
+  const data = await response.json();
+  console.log("sökresultat", data);
+  // console.log("form input: ",formInput.value);
+
+    // gör alla öl (data.name) till knappar
+    for (const [index, item] of data.entries()) {
+      console.log("item", item.name);
+      console.log("index item", index);
+     
+      
+      const beerNameBtn = document.createElement("button");
+      beerNameBtn.innerText = item.name;
+      // console.log("Ölnamn: ", beer.name);
+  
+      // lägger knapparn i en lista <li>
+      const beerItem = document.createElement("li"); //skapar li i HTML
+      beerItem.appendChild(beerNameBtn);
+      beerList.append(beerItem); //gör så li-elementen syns i HTML
+      infoBox.append(beerList)
+      infoBox.classList.remove("hide")
+      beerBox.classList.add("hide")
+
+      beerNameBtn.addEventListener("click", ()=>{
+        getInfoList(index) //skall ligga i eventlistener
+      })
+    }
+}
+)
+
+
+
+//<fetch>`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`
+
+
+getRandomBeer()

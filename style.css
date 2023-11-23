@@ -90,7 +90,7 @@ main{
 
  }
  li button{
-    border: none;
+    /* border: none; */
     background: white
  }
 
