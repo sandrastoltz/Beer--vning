@@ -166,28 +166,7 @@ form.addEventListener("submit", async (e) => {
   // console.log("form input: ",formInput.value);
 
     // gör alla öl (data.name) till knappar
-    for (const [index, item] of data.entries()) {
-      console.log("item", item.name);
-      console.log("index item", index);
-     
-      const beerNameBtn = document.createElement("button");
-      beerNameBtn.innerText = item.name;
-      // console.log("Ölnamn: ", beer.name);
-  
-      // lägger knapparn i en lista <li>
-      const beerItem = document.createElement("li"); //skapar li i HTML
-      beerItem.appendChild(beerNameBtn);
-      beerList.append(beerItem); //gör så li-elementen syns i HTML
-      infoBox.append(beerList)
-      infoBox.classList.remove("hide")
-      beerBox.classList.add("hide")
-
-      beerNameBtn.addEventListener("click", ()=>{
-        previous.classList.add("hide")
-        next.classList.add("hide")
-        getInfoList(index) //skall ligga i eventlistener
-      })
-    }
+printList(data)
 })
 
 next.addEventListener("click", async () => {
@@ -203,29 +182,7 @@ next.addEventListener("click", async () => {
     previous.disabled = false
   }
 
-  for (const [index, item] of data.entries()) {
-    console.log("item", item.name);
-    console.log("index item", index);
-   
-    
-    const beerNameBtn = document.createElement("button");
-    beerNameBtn.innerText = item.name;
-    // console.log("Ölnamn: ", beer.name);
-
-    // lägger knapparn i en lista <li>
-    const beerItem = document.createElement("li"); //skapar li i HTML
-    beerItem.appendChild(beerNameBtn);
-    beerList.append(beerItem); //gör så li-elementen syns i HTML
-    infoBox.append(beerList)
-    infoBox.classList.remove("hide")
-    beerBox.classList.add("hide")
-
-    beerNameBtn.addEventListener("click", ()=>{
-      previous.classList.add("hide")
-      next.classList.add("hide")
-      getInfoList(index) //skall ligga i eventlistener
-    })
-  }
+printList(data)
 
 })
 
@@ -243,7 +200,14 @@ previous.addEventListener("click", async () => {
     previous.disabled = true
   }
 
+  printList(data)
 
+
+})
+
+//Skriver ut listan
+const printList = (data) => {
+    
   for (const [index, item] of data.entries()) {
     console.log("item", item.name);
     console.log("index item", index);
@@ -269,7 +233,8 @@ previous.addEventListener("click", async () => {
   }
 
 
-})
+
+}
 
 
 
