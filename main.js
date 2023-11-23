@@ -15,7 +15,8 @@ const searchBtn = document.getElementById("searchBeerBtn");
 const form = document.querySelector("#main-form");
 const infoBox = document.querySelector(".main__search-container");
 const beerBox = document.querySelector(".main__beer-card-container");
-const back = document.querySelector("#go-back-btn");
+const back = document.querySelector("#back-btn");
+const backToSearch = document.querySelector("#back-to-search");
 const formInput = document.querySelector(".main__form-input");
 let page = 1;
 const next = document.querySelector(".next");
@@ -53,6 +54,8 @@ const getRandomBeer = async () => {
   seeMoreBtn.addEventListener("click", () => {
     infoBox.classList.remove("hide");
     beerBox.classList.add("hide");
+    backToSearch.classList.remove("hide")
+    back.classList.remove("hide")
     seeMoreInfo(data);
   });
 };
@@ -64,6 +67,8 @@ randomBtn.addEventListener("click", () => {
 
 searchBtn.addEventListener("click", () => {
   form.classList.remove("hide");
+  backToSearch.classList.add("hide")
+  
 });
 
 // back knappen på info page
@@ -154,9 +159,12 @@ const getInfoList = async (index) => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  back.classList.remove("hide")
+  backToSearch.classList.add("hide")
   beerList.innerHTML = ""
   previous.classList.remove("hide")
   next.classList.remove("hide")
+  
     if (page === 1){
     previous.disabled = true
   }
@@ -228,15 +236,23 @@ const printList = (data) => {
     beerNameBtn.addEventListener("click", ()=>{
       previous.classList.add("hide")
       next.classList.add("hide")
+      backToSearch.classList.remove("hide")
+      back.classList.add("hide")
       getInfoList(index) //skall ligga i eventlistener
     })
   }
-
-
-
 }
 
-
+backToSearch.addEventListener("click", async ()=>{
+  beerList.innerHTML= "";
+  previous.classList.remove("hide")
+  next.classList.remove("hide")
+  backToSearch.classList.add("hide")
+  back.classList.remove("hide")
+  const response = await fetch(`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10&page=${page}`);
+  const data = await response.json();
+  printList(data)
+})
 
 
 //<fetch>`https://api.punkapi.com/v2/beers?beer_name=${formInput.value}&per_page=10`
